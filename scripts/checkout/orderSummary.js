@@ -79,13 +79,9 @@ function renderOrderSummary() {
     link.addEventListener("click", () => {
       removeFromCart(productId);
 
-      const container = document.querySelector(
-        `.js-cart-item-container-${productId}`,
-      );
-
-      container.remove();
       updateCartQuantity(".js-cart-quantity");
 
+      renderOrderSummary();
       renderPamentSummary();
     });
   });
@@ -156,9 +152,21 @@ function renderOrderSummary() {
     let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
-      const today = dayjs();
-      const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-      const dateString = deliveryDate.format("dddd, MMMM, D");
+      let currentDate = dayjs();
+      let remainingDays = deliveryOption.deliveryDays;
+
+      while (remainingDays > 0) {
+        currentDate = currentDate.add(1, "day");
+
+        const dayOfWeek = currentDate.day();
+
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          // 0 Sunday, 6 Saturday
+          remainingDays--;
+        }
+      }
+
+      const dateString = currentDate.format("dddd, MMMM, D");
 
       const priceString =
         deliveryOption.priceCents === 0

@@ -12,6 +12,7 @@ import {
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from ".././utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import renderPamentSummary from "./paymentSummary.js";
 deliveryOptions;
 
 function renderOrderSummary() {
@@ -84,6 +85,8 @@ function renderOrderSummary() {
 
       container.remove();
       updateCartQuantity(".js-cart-quantity");
+
+      renderPamentSummary();
     });
   });
 
@@ -118,6 +121,7 @@ function renderOrderSummary() {
       if (!cartItem) return;
 
       updateQuantity(productId, saveBtn, cartItem);
+      renderPamentSummary();
     });
   });
 
@@ -191,6 +195,7 @@ function renderOrderSummary() {
       updateDeliveryOption(productId, deliveryOptionId);
 
       renderOrderSummary();
+      renderPamentSummary();
     });
   });
 }

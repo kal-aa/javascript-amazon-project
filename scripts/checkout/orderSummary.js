@@ -34,8 +34,7 @@ function renderOrderSummary() {
     const dayFormat = deliveryDate.format("dddd, MMMM, D");
 
     cartSummaryHTML += `
-  <div class="cart-item-container 
-              js-cart-item-container-${productId}">
+  <div class="cart-item-container js-cart-item-container js-cart-item-container-${productId}">
     <div class="delivery-date js-delivery-date">Delivery date: ${dayFormat}</div>
 
     <div class="cart-item-details-grid">
@@ -47,14 +46,14 @@ function renderOrderSummary() {
       <div class="cart-item-details">
         <div class="product-name">${matchingProduct.name}</div>
         <div class="product-price">${formatCurrency(matchingProduct.priceCents)}</div>
-        <div class="product-quantity">
+        <div class="product-quantity js-product-quantity-${productId}">
           <span> Quantity: <span class="quantity-label js-quantity-label-${productId}">${cartItem.quantity}</span> </span>
           <span class="update-quantity-link link-primary js-update-quantity-link js-update-quantity-link-${productId}" data-product-id="${productId}">
           Update
           </span>
           <input class="js-update-input-${productId}" style='width: 8%; display: none'/>
           <span class="js-save-updated-quantity js-save-updated-quantity-${productId}" style="color: blue; display: none; cursor: pointer;" data-product-id="${productId}">Save</span>
-          <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id="${productId}">
+          <span class="delete-quantity-link js-delete-link-${productId} link-primary js-delete-quantity-link" data-product-id="${productId}">
             Delete
           </span>
         </div>

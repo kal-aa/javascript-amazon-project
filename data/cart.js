@@ -50,6 +50,9 @@ export function addToCart(productId, itemQuantity) {
 }
 
 export function removeFromCart(productId) {
+  const isMatch = cart.some((item) => item.productId === productId);
+  if (!isMatch) return;
+
   cart = cart.filter((item) => item.productId !== productId);
 
   saveToStorage();

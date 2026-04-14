@@ -182,12 +182,12 @@ function renderOrderSummary() {
             ${isChecked ? "checked" : ""}
               id="${productId}"
               type="radio"
-              class="delivery-option-input"
+              class="delivery-option-input js-delivery-option-input-${productId}-${deliveryOption.id}"
               name="delivery-option-${productId}"
             />
             <div>
               <div class="delivery-option-date">${dateString}</div>
-              <div class="delivery-option-price">${priceString} Shipping</div>
+              <div class="delivery-option-price js-delivery-option-price-${productId}-${deliveryOption.id}">${priceString} Shipping</div>
             </div>
           </div>
        `;

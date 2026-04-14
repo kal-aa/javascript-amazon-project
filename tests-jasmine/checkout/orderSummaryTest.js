@@ -1,10 +1,10 @@
 import { cart, loadFromStorage } from "../../../data/cart.js";
 import renderOrderSummary from "../../../scripts/checkout/orderSummary.js";
+import renderPamentSummary from "../../scripts/checkout/paymentSummary.js";
 
+const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+const productId2 = "54e0eccd-8f36-462b-b68a-8182611d9add";
 describe("test suite: renderOrderSummary", () => {
-  const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
-  const productId2 = "54e0eccd-8f36-462b-b68a-8182611d9add";
-
   beforeEach(() => {
     document.querySelector(".js-test-container").innerHTML = `
             <div class="js-order-summary"></div>
@@ -70,5 +70,55 @@ describe("test suite: renderOrderSummary", () => {
       document.querySelector(`.js-product-name-${productId2}`).innerText,
     ).toEqual("2 Slot Toaster - Black");
     expect(document.querySelector(`.product-price`).innerText).toContain("$");
+  });
+});
+
+describe("test suite: updating delivery option", () => {
+  beforeEach(() => {
+    document.querySelector(".js-test-container").innerHTML = `
+      <div class="js-order-summary"></div> 
+      <div class="js-payment-summary"></div>
+        `;
+
+    spyOn(localStorage, "getItem").and.callFake(() => {
+      return JSON.stringify([
+        {
+          productId: productId1,
+          quantity: 2,
+          deliveryOptionId: "1",
+        },
+
+        {
+          productId: productId2,
+          quantity: 1,
+          deliveryOptionId: "2",
+        },
+      ]);
+    });
+    spyOn(localStorage, "setItem");
+    loadFromStorage();
+
+    renderPamentSummary();
+    renderOrderSummary();
+  });
+
+  afterEach(() => {
+    document.querySelector(".js-test-container").innerHTML = "";
+  });
+
+  it("changes the delivery option", () => {
+    const currentRadio = document.querySelector(
+      `.js-delivery-option-input-${productId1}-3`,
+    );
+
+    expect(currentRadio.checked).toEqual(false);
+
+    currentRadio.click();
+
+    expect(currentRadio.checked).toEqual(true);
+    expect(
+      document.querySelector(`.js-delivery-option-price-${productId1}-3`)
+        .innerHTML,
+    ).toEqual("$9.99 - Shipping");
   });
 });

@@ -23,11 +23,11 @@ export function saveToStorage() {
 }
 
 export function getCartFromStore() {
-  const cart = localStorage.get("cart");
+  const cart = localStorage.getItem("cart");
   return JSON.parse(cart);
 }
 
-export function addToCart(productId, itemQuantity) {
+export function addToCart(productId, itemQuantity = 1) {
   let matchingItem;
 
   cart.forEach((cartItem) => {

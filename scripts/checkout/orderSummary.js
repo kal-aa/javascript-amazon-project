@@ -45,7 +45,7 @@ function renderOrderSummary() {
 
       <div class="cart-item-details">
         <div class="product-name js-product-name-${productId}">${matchingProduct.name}</div>
-        <div class="product-price">$${formatCurrency(matchingProduct.priceCents)}</div>
+        <div class="product-price">$${matchingProduct.getPrice()}</div>
         <div class="product-quantity js-product-quantity-${productId}">
           <span> Quantity: <span class="quantity-label js-quantity-label-${productId}">${cartItem.quantity}</span> </span>
           <span class="update-quantity-link link-primary js-update-quantity-link js-update-quantity-link-${productId}" data-product-id="${productId}">

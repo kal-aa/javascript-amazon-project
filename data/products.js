@@ -13,6 +13,12 @@ export function getProduct(productId) {
 }
 
 class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
   constructor(productDetails) {
     const { id, image, name, rating, priceCents } = productDetails;
     this.id = id;
@@ -28,6 +34,28 @@ class Product {
 
   getPrice() {
     return `${formatCurrency(this.priceCents)}`;
+  }
+
+  extraInfoHTML() {
+    return "";
+  }
+}
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails); // calls the constructor of the parent class
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfoHTML() {
+    // super.extraInfoHTML();
+    return `
+      <a href="${this.sizeChartLink}" target="_blank">
+        Size chart
+      </a>
+      `;
   }
 }
 
@@ -503,5 +531,7 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productDetails) => {
-  return new Product(productDetails);
+  if (productDetails.sizeChartLink) {
+    return new Clothing(productDetails);
+  } else return new Product(productDetails);
 });

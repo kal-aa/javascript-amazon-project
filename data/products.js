@@ -58,6 +58,32 @@ class Clothing extends Product {
       `;
   }
 }
+
+class Appliance extends Product {
+  instructionalLink;
+  warrantyLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionalLink = productDetails.instructionalLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  extraInfoHTML() {
+    return `
+      <div>
+      <a href="${this.instructionalLink}" target="_blank">
+       Instructional Link
+      </a>
+      </br>
+      <a href="${this.warrantyLink}" target="_blank">
+        Warranty Link
+      </a>
+      </div>
+      `;
+  }
+}
+
 /*
 const date = new Date();
 console.log(date.toLocaleTimeString());
@@ -141,6 +167,10 @@ export const products = [
     },
     priceCents: 1899,
     keywords: ["toaster", "kitchen", "appliances"],
+    instructionalLink:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2KHPGbVLu2iZfhThIGSQ3Cg0A-M1_s2y0rA&s",
+    warrantyLink:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8A89ejiaZw2IacXzqPCZYBwHafC8Y6-rq5Q&s",
   },
   {
     id: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
@@ -569,5 +599,7 @@ export const products = [
 ].map((productDetails) => {
   if (productDetails.sizeChartLink) {
     return new Clothing(productDetails);
+  } else if (productDetails.warrantyLink && productDetails.instructionalLink) {
+    return new Appliance(productDetails);
   } else return new Product(productDetails);
 });

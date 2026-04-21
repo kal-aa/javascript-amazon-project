@@ -1,14 +1,16 @@
 import { addToCart, updateCartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { loadProducts, products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 // import "../data/car.js";
 
-const productGrid = document.querySelector(".js-products-grid");
+loadProducts(renderProductsGrid);
 
-let productsHtml = "";
+function renderProductsGrid() {
+  let productsHtml = "";
 
-products.forEach((product) => {
-  productsHtml += `
+  const productGrid = document.querySelector(".js-products-grid");
+  products.forEach((product) => {
+    productsHtml += `
         <div class="product-container">
           <div class="product-image-container">
             <img
@@ -24,12 +26,12 @@ products.forEach((product) => {
           <div class="product-rating-container">
             <img
               class="product-rating-stars"
-              src="${product.getStarsUrl()}"
+              src="${`images/ratings/rating-${product.rating.stars * 10}.png`}"
             />
             <div class="product-rating-count link-primary">${product.rating.count}</div>
           </div>
 
-          <div class="product-price">$${product.getPrice()}</div>
+          <div class="product-price">$${formatCurrency(product.priceCents)}</div>
 
           <div class="product-quantity-container">
             <select class="js-quantity-selector-${product.id}">
@@ -46,8 +48,6 @@ products.forEach((product) => {
             </select>
           </div>
 
-          ${product.extraInfoHTML()}
-
           <div class="product-spacer"></div>
 
           <div class="added-to-cart">
@@ -59,21 +59,22 @@ products.forEach((product) => {
           data-product-id="${product.id}">Add to Cart</button>
         </div>
     `;
-});
-
-productGrid.innerHTML = productsHtml;
-
-updateCartQuantity(".js-cart-quantity");
-
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  button.addEventListener("click", () => {
-    const { productId } = button.dataset;
-
-    const quantitySelector = document.querySelector(
-      `.js-quantity-selector-${productId}`,
-    ).value;
-
-    addToCart(productId, Number(quantitySelector));
-    updateCartQuantity(".js-cart-quantity");
   });
-});
+
+  productGrid.innerHTML = productsHtml;
+
+  updateCartQuantity(".js-cart-quantity");
+
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      const { productId } = button.dataset;
+
+      const quantitySelector = document.querySelector(
+        `.js-quantity-selector-${productId}`,
+      ).value;
+
+      addToCart(productId, Number(quantitySelector));
+      updateCartQuantity(".js-cart-quantity");
+    });
+  });
+}

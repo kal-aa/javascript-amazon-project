@@ -1,6 +1,6 @@
 import { cart, loadFromStorage } from "../../../data/cart.js";
 import renderOrderSummary from "../../../scripts/checkout/orderSummary.js";
-import { loadProducts } from "../../data/products.js";
+import { loadProductsFetch } from "../../data/products.js";
 import renderPamentSummary from "../../scripts/checkout/paymentSummary.js";
 
 const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
@@ -76,7 +76,7 @@ describe("test suite: renderOrderSummary", () => {
 
 describe("test suite: updating delivery option", () => {
   beforeAll((done) => {
-    loadProducts(() => {
+    loadProductsFetch().then(() => {
       done();
     });
   });

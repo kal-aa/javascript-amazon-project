@@ -123,6 +123,33 @@ object3.arrowMethod();
 
 export let products = [];
 
+export function loadProductsFetch() {
+  return fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json();
+    })
+    .then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.sizeChartLink) {
+          return new Clothing(productDetails);
+        } else if (
+          productDetails.warrantyLink &&
+          productDetails.instructionalLink
+        ) {
+          return new Appliance(productDetails);
+        } else return new Product(productDetails);
+      });
+
+      console.log("load products");
+    });
+}
+
+/*
+loadProductsFetch().then(() => {
+  console.log("next step");
+});
+*/
+
 export function loadProducts(renderProductsGrid) {
   const xhr = new XMLHttpRequest();
 

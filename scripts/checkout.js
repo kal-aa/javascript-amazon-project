@@ -6,14 +6,20 @@ import renderPamentSummary from "./checkout/paymentSummary.js";
 // import "../data/backend-practice.js";
 
 async function loadPage() {
-  await loadProductsFetch();
+  try {
+    // throw "error 1";
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    await loadProductsFetch();
+
+    await new Promise((resolve, reject) => {
+      loadCart(() => {
+        // reject("error 3");
+        resolve();
+      });
     });
-  });
-
+  } catch (error) {
+    console.log("Unexpecte error:", error);
+  }
   renderOrderSummary();
   renderPamentSummary();
 }
